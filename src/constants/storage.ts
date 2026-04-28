@@ -1,0 +1,7 @@
+export const TOKEN_STORAGE_KEY = 'solos-admin/token'
+export const REFRESH_TOKEN_STORAGE_KEY = 'solos-admin/refresh-token'
+export const TOKEN_EXPIRES_AT_STORAGE_KEY = 'solos-admin/token-expires-at'
+export const USER_STORAGE_KEY = 'solos-admin/user'
+export const TAB_STORAGE_KEY = 'solos-admin/tabs'
+export const THEME_STORAGE_KEY = 'solos-admin/theme'
+export const ACCESS_STORAGE_KEY = 'solos-admin/access'
