@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Form Template',
+    title: '表单模板',
     icon: 'i-ep-edit-pen',
     layout: 'admin',
     requiresAuth: true,

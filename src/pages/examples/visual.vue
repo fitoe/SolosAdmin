@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Visual',
+    title: '可视化',
     icon: 'i-ep-pie-chart',
     layout: 'admin',
     requiresAuth: true,

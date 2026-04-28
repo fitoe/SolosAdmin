@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Uploads',
+    title: '上传示例',
     icon: 'i-ep-upload',
     layout: 'admin',
     requiresAuth: true,

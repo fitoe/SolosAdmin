@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Page Templates',
+    title: '页面模板',
     icon: 'i-ep-files',
     layout: 'admin',
     requiresAuth: true,

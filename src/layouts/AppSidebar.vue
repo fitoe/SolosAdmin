@@ -9,9 +9,12 @@ const { activeMenu, openMenus } = useRouteMenu()
     class="border-r border-slate-200 bg-white/88 backdrop-blur transition-all duration-200"
     :style="{ width: appStore.sidebarWidth }"
   >
-    <div class="h-[var(--app-header-height)] flex items-center px-5 text-18px font-700 text-slate-900">
-      <span class="i-mdi-shield-crown-outline mr-3 text-24px text-brand-600" />
-      <span v-if="!appStore.sidebarCollapsed">Solos Admin</span>
+    <div
+      class="h-[var(--app-header-height)] flex items-center text-18px font-700 text-slate-900 transition-all duration-200"
+      :class="appStore.sidebarCollapsed ? 'justify-center px-0' : 'px-5'"
+    >
+      <span class="i-mdi-shield-crown-outline text-24px text-brand-600" :class="appStore.sidebarCollapsed ? '' : 'mr-3'" />
+      <span v-if="!appStore.sidebarCollapsed">后台管理</span>
     </div>
     <ElScrollbar height="calc(100vh - var(--app-header-height))">
       <ElMenu

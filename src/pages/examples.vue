@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Examples',
+    title: '示例中心',
     icon: 'i-ep-grid',
     layout: 'admin',
     requiresAuth: true,

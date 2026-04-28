@@ -6,6 +6,7 @@ const router = useRouter()
 const breadcrumbs = computed(() => route.matched.filter(item => item.meta.title && !item.meta.hidden))
 const { visible, keyword, results, open, close, go } = useGlobalSearch()
 const { isFullscreen, toggle } = useFullscreen()
+const sidebarToggleIcon = computed(() => (appStore.sidebarCollapsed ? 'i-ep-expand' : 'i-ep-fold'))
 
 async function handleLogout() {
   userStore.logout()
@@ -17,7 +18,7 @@ async function handleLogout() {
   <header class="h-[var(--app-header-height)] flex items-center justify-between border-b border-slate-200 bg-white/72 px-6 backdrop-blur">
     <div class="flex min-w-0 items-center gap-4">
       <ElButton circle text @click="appStore.toggleSidebar()">
-        <span class="i-ep-expand" />
+        <span :class="sidebarToggleIcon" />
       </ElButton>
       <ElBreadcrumb separator="/">
         <ElBreadcrumbItem v-for="item in breadcrumbs" :key="item.path">
@@ -26,17 +27,17 @@ async function handleLogout() {
       </ElBreadcrumb>
     </div>
     <div class="flex items-center gap-2">
-      <ElTooltip content="Search">
+      <ElTooltip content="搜索">
         <ElButton circle text @click="open()">
           <span class="i-ep-search" />
         </ElButton>
       </ElTooltip>
-      <ElTooltip content="Fullscreen">
+      <ElTooltip content="全屏">
         <ElButton circle text @click="toggle()">
           <span :class="isFullscreen ? 'i-ep-close-bold' : 'i-ep-full-screen'" />
         </ElButton>
       </ElTooltip>
-      <ElTooltip content="Notifications">
+      <ElTooltip content="通知">
         <ElButton circle text>
           <span class="i-ep-bell" />
         </ElButton>
@@ -45,24 +46,24 @@ async function handleLogout() {
         <div class="flex cursor-pointer items-center gap-3 rounded-full border border-slate-200 bg-white px-3 py-1.5">
           <ElAvatar :size="30">{{ userStore.profile?.avatar ?? 'SA' }}</ElAvatar>
           <div class="text-right">
-            <div class="text-13px font-600 text-slate-800">{{ userStore.profile?.name ?? 'Guest' }}</div>
-            <div class="text-12px text-slate-500">{{ userStore.profile?.role ?? 'none' }}</div>
+            <div class="text-13px font-600 text-slate-800">{{ userStore.profile?.name ?? '访客' }}</div>
+            <div class="text-12px text-slate-500">{{ userStore.profile?.role ?? '未登录' }}</div>
           </div>
         </div>
         <template #dropdown>
           <ElDropdownMenu>
-            <ElDropdownItem @click="router.push('/profile')">Profile</ElDropdownItem>
-            <ElDropdownItem divided @click="handleLogout">Logout</ElDropdownItem>
+            <ElDropdownItem @click="router.push('/profile')">个人中心</ElDropdownItem>
+            <ElDropdownItem divided @click="handleLogout">退出登录</ElDropdownItem>
           </ElDropdownMenu>
         </template>
       </ElDropdown>
     </div>
   </header>
 
-  <ElDialog v-model="visible" width="560px" align-center title="Global Search" @close="close()">
+  <ElDialog v-model="visible" width="560px" align-center title="全局搜索" @close="close()">
     <ElInput
       v-model="keyword"
-      placeholder="Search route or page"
+      placeholder="搜索路由或页面"
       size="large"
       clearable
     />

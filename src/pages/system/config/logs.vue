@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Operation Logs',
+    title: '操作日志',
     icon: 'i-ep-document',
     layout: 'admin',
     requiresAuth: true,
@@ -10,16 +10,16 @@ definePage({
 })
 
 const rows = [
-  { actor: 'Admin User', action: 'Updated route meta', at: '2026-04-27 16:00' },
-  { actor: 'Editor User', action: 'Visited user list', at: '2026-04-27 15:42' },
+  { actor: '管理员', action: '更新了路由元信息', at: '2026-04-27 16:00' },
+  { actor: '编辑员', action: '访问了用户列表', at: '2026-04-27 15:42' },
 ]
 </script>
 
 <template>
   <PageContainer>
-    <PageHeader title="Operation Logs" description="Read-only detail table example." />
+    <PageHeader title="操作日志" description="只读明细表格示例页面。" />
     <div class="app-card p-5">
-      <DataTable :columns="[{ key: 'actor', title: 'Actor' }, { key: 'action', title: 'Action' }, { key: 'at', title: 'At' }]" :rows="rows" />
+      <DataTable :columns="[{ key: 'actor', title: '操作人' }, { key: 'action', title: '操作内容' }, { key: 'at', title: '时间' }]" :rows="rows" />
     </div>
   </PageContainer>
 </template>

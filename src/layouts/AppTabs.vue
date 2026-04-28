@@ -5,14 +5,15 @@ const route = useRoute()
 const router = useRouter()
 const tabsStore = useTabsStore()
 const contextMenu = useTabsContextMenu()
-const contextTargetAffix = computed(() => contextMenu.targetTab.value?.affix ?? false)
+const { visible, x, y, targetTab, open, close: closeContextMenu } = contextMenu
+const contextTargetAffix = computed(() => targetTab.value?.affix ?? false)
 
 onMounted(() => {
-  window.addEventListener('click', contextMenu.close)
+  window.addEventListener('click', closeContextMenu)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('click', contextMenu.close)
+  window.removeEventListener('click', closeContextMenu)
 })
 
 async function go(fullPath: string) {
@@ -29,14 +30,14 @@ async function close(fullPath: string) {
 }
 
 async function closeCurrent() {
-  const targetTab = contextMenu.targetTab.value
-  if (!targetTab) {
+  const currentTargetTab = targetTab.value
+  if (!currentTargetTab) {
     return
   }
 
-  const wasActive = route.fullPath === targetTab.fullPath
-  tabsStore.closeCurrentTab(targetTab.fullPath)
-  contextMenu.close()
+  const wasActive = route.fullPath === currentTargetTab.fullPath
+  tabsStore.closeCurrentTab(currentTargetTab.fullPath)
+  closeContextMenu()
 
   if (wasActive) {
     await router.push(tabsStore.activeFullPath || '/dashboard')
@@ -44,37 +45,37 @@ async function closeCurrent() {
 }
 
 async function closeOthers() {
-  const targetTab = contextMenu.targetTab.value
-  if (!targetTab) {
+  const currentTargetTab = targetTab.value
+  if (!currentTargetTab) {
     return
   }
 
-  tabsStore.closeOtherTabs(targetTab.fullPath)
-  contextMenu.close()
-  await router.push(targetTab.fullPath)
+  tabsStore.closeOtherTabs(currentTargetTab.fullPath)
+  closeContextMenu()
+  await router.push(currentTargetTab.fullPath)
 }
 
 async function closeRight() {
-  const targetTab = contextMenu.targetTab.value
-  if (!targetTab) {
+  const currentTargetTab = targetTab.value
+  if (!currentTargetTab) {
     return
   }
 
-  tabsStore.closeRightTabs(targetTab.fullPath)
-  contextMenu.close()
+  tabsStore.closeRightTabs(currentTargetTab.fullPath)
+  closeContextMenu()
   if (!tabsStore.items.some(item => item.fullPath === route.fullPath)) {
-    await router.push(targetTab.fullPath)
+    await router.push(currentTargetTab.fullPath)
   }
 }
 
 function refreshCurrent() {
-  const targetTab = contextMenu.targetTab.value
-  if (!targetTab) {
+  const currentTargetTab = targetTab.value
+  if (!currentTargetTab) {
     return
   }
 
-  tabsStore.refreshTab(targetTab.name)
-  contextMenu.close()
+  tabsStore.refreshTab(currentTargetTab.name)
+  closeContextMenu()
 }
 </script>
 
@@ -90,7 +91,7 @@ function refreshCurrent() {
           : 'border-slate-200 bg-white text-slate-600'
       "
       @click="go(item.fullPath)"
-      @contextmenu="contextMenu.open($event, item)"
+      @contextmenu="open($event, item)"
     >
       <span>{{ item.title }}</span>
       <span v-if="!item.affix" class="i-ep-close text-12px" @click.stop="close(item.fullPath)" />
@@ -98,25 +99,29 @@ function refreshCurrent() {
   </div>
 
   <div
-    v-if="contextMenu.visible"
-    class="fixed z-30 min-w-40 rounded-3 border border-slate-200 bg-white py-2 shadow-xl shadow-slate-200/60"
-    :style="{ left: `${contextMenu.x}px`, top: `${contextMenu.y}px` }"
+    v-if="visible"
+    class="app-tabs-context-menu fixed z-30 min-w-44 overflow-hidden rounded-3 border border-slate-200 bg-white py-1 shadow-xl shadow-slate-200/60"
+    :style="{ left: `${x}px`, top: `${y}px` }"
   >
-    <button class="w-full px-4 py-2 text-left text-13px text-slate-700 hover:bg-slate-50" @click.stop="refreshCurrent">
-      Refresh Current
+    <button class="app-tabs-context-menu__item" @click.stop="refreshCurrent">
+      <span class="i-ep-refresh-right text-14px text-slate-500" />
+      <span>刷新当前页</span>
     </button>
     <button
-      class="w-full px-4 py-2 text-left text-13px text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-300"
+      class="app-tabs-context-menu__item disabled:cursor-not-allowed disabled:text-slate-300"
       :disabled="contextTargetAffix"
       @click.stop="closeCurrent"
     >
-      Close Current
+      <span class="i-ep-close text-14px text-slate-500" />
+      <span>关闭当前页</span>
     </button>
-    <button class="w-full px-4 py-2 text-left text-13px text-slate-700 hover:bg-slate-50" @click.stop="closeOthers">
-      Close Others
+    <button class="app-tabs-context-menu__item" @click.stop="closeOthers">
+      <span class="i-ep-remove-filled text-14px text-slate-500" />
+      <span>关闭其他页</span>
     </button>
-    <button class="w-full px-4 py-2 text-left text-13px text-slate-700 hover:bg-slate-50" @click.stop="closeRight">
-      Close Right
+    <button class="app-tabs-context-menu__item" @click.stop="closeRight">
+      <span class="i-ep-d-arrow-right text-14px text-slate-500" />
+      <span>关闭右侧页</span>
     </button>
   </div>
 </template>

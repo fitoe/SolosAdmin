@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 
 definePage({
   meta: {
-    title: 'Inline Edit',
+    title: '行内编辑',
     icon: 'i-ep-edit',
     layout: 'admin',
     requiresAuth: true,

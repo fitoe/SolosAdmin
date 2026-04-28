@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Markdown Editor',
+    title: 'Markdown 编辑器',
     icon: 'i-ep-edit',
     layout: 'admin',
     requiresAuth: true,

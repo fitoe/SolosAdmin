@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'System',
+    title: '系统管理',
     icon: 'i-ep-setting',
     layout: 'admin',
     requiresAuth: true,

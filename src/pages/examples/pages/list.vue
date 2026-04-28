@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'List Template',
+    title: '列表模板',
     icon: 'i-ep-list',
     layout: 'admin',
     requiresAuth: true,
@@ -11,12 +11,12 @@ definePage({
 
 <template>
   <PageContainer>
-    <PageHeader title="List Template" description="Canonical list layout: filters, toolbar, table, pagination." />
-    <QueryPanel title="Filters">
+    <PageHeader title="列表模板" description="标准列表布局：筛选、工具栏、表格与分页。" />
+    <QueryPanel title="筛选条件">
       <ElForm inline>
-        <ElFormItem label="Status">
+        <ElFormItem label="状态">
           <ElSelect model-value="all" class="w-36">
-            <ElOption label="All" value="all" />
+            <ElOption label="全部" value="all" />
           </ElSelect>
         </ElFormItem>
       </ElForm>
@@ -24,14 +24,14 @@ definePage({
     <div class="app-card p-5">
       <DataToolbar>
         <template #left>
-          <ElButton type="primary">Create</ElButton>
+          <ElButton type="primary">新建</ElButton>
         </template>
         <template #right>
-          <ElButton>Export</ElButton>
+          <ElButton>导出</ElButton>
         </template>
       </DataToolbar>
       <div class="mt-4">
-        <DataTable :columns="[{ key: 'name', title: 'Name' }, { key: 'status', title: 'Status' }]" :rows="[{ name: 'Template Row', status: 'Active' }]" />
+        <DataTable :columns="[{ key: 'name', title: '名称' }, { key: 'status', title: '状态' }]" :rows="[{ name: '模板数据', status: '启用' }]" />
       </div>
     </div>
   </PageContainer>

@@ -11,7 +11,7 @@ const users = Array.from({ length: 28 }, (_, index) => ({
 
 const adminUser: UserProfile = {
   id: '1',
-  name: 'Admin User',
+  name: '管理员',
   role: 'admin',
   roles: ['admin'],
   permissions: ['system:user:view', 'system:user:edit', 'system:role:view', 'system:menu:view'],
@@ -20,7 +20,7 @@ const adminUser: UserProfile = {
 
 const editorUser: UserProfile = {
   id: '2',
-  name: 'Editor User',
+  name: '编辑员',
   role: 'editor',
   roles: ['editor'],
   permissions: ['system:user:view'],
@@ -29,9 +29,9 @@ const editorUser: UserProfile = {
 
 const rolePolicies: RolePolicy[] = [
   {
-    name: 'Admin',
+    name: '管理员',
     code: 'admin',
-    description: 'Owns full navigation and system configuration pages.',
+    description: '拥有全部导航和系统配置页面权限。',
     members: 4,
     routeKeys: [
       '/dashboard',
@@ -45,9 +45,13 @@ const rolePolicies: RolePolicy[] = [
       '/system/config/logs',
       '/examples',
       '/examples/pages',
+      '/examples/pages/advanced-search',
+      '/examples/pages/batch-actions',
       '/examples/pages/list',
       '/examples/pages/form',
       '/examples/pages/detail',
+      '/examples/pages/inline-edit',
+      '/examples/pages/tree-table',
       '/examples/visual',
       '/examples/visual/charts',
       '/examples/content',
@@ -59,9 +63,9 @@ const rolePolicies: RolePolicy[] = [
     permissionKeys: adminUser.permissions,
   },
   {
-    name: 'Editor',
+    name: '编辑员',
     code: 'editor',
-    description: 'Can browse content pages and the user list, but no system config.',
+    description: '可查看内容页面和用户列表，但不可进入系统配置。',
     members: 12,
     routeKeys: [
       '/dashboard',
@@ -81,33 +85,31 @@ const rolePolicies: RolePolicy[] = [
 ]
 
 const menuRegistry: MenuRegistryItem[] = [
-  { routeKey: '/dashboard', title: 'Dashboard', path: '/dashboard', level: 1, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
-  { routeKey: '/system', title: 'System', path: '/system', level: 1, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 20 },
-  { routeKey: '/system/access', title: 'Access', path: '/system/access', level: 2, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
-  { routeKey: '/system/access/users', title: 'Users', path: '/system/access/users', level: 3, roles: ['admin', 'editor'], permissions: ['system:user:view'], enabled: true, order: 10 },
-  { routeKey: '/system/access/roles', title: 'Roles', path: '/system/access/roles', level: 3, roles: ['admin'], permissions: ['system:role:view'], enabled: true, order: 20 },
-  { routeKey: '/system/config', title: 'Configuration', path: '/system/config', level: 2, roles: ['admin'], permissions: [], enabled: true, order: 20 },
-  { routeKey: '/system/config/menus', title: 'Menus', path: '/system/config/menus', level: 3, roles: ['admin'], permissions: ['system:menu:view'], enabled: true, order: 10 },
-  { routeKey: '/system/config/dicts', title: 'Dictionaries', path: '/system/config/dicts', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 20 },
-  { routeKey: '/system/config/logs', title: 'Operation Logs', path: '/system/config/logs', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 30 },
-  { routeKey: '/examples', title: 'Examples', path: '/examples', level: 1, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 30 },
-  { routeKey: '/examples/pages', title: 'Page Templates', path: '/examples/pages', level: 2, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
-  { routeKey: '/examples/pages/list', title: 'List Template', path: '/examples/pages/list', level: 3, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
-  { routeKey: '/examples/pages/form', title: 'Form Template', path: '/examples/pages/form', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 20 },
-  { routeKey: '/examples/pages/detail', title: 'Detail Template', path: '/examples/pages/detail', level: 3, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 30 },
-  { routeKey: '/examples/visual', title: 'Visual', path: '/examples/visual', level: 2, roles: ['admin'], permissions: [], enabled: true, order: 20 },
-  { routeKey: '/examples/visual/charts', title: 'Charts', path: '/examples/visual/charts', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 10 },
-  { routeKey: '/examples/content', title: 'Content', path: '/examples/content', level: 2, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 30 },
-  { routeKey: '/examples/content/markdown', title: 'Markdown Editor', path: '/examples/content/markdown', level: 3, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
-  { routeKey: '/examples/content/uploads', title: 'Uploads', path: '/examples/content/uploads', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 20 },
-  { routeKey: '/examples/content/excel', title: 'Excel Import/Export', path: '/examples/content/excel', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 30 },
+  { routeKey: '/dashboard', title: '工作台', path: '/dashboard', level: 1, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
+  { routeKey: '/system', title: '系统管理', path: '/system', level: 1, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 20 },
+  { routeKey: '/system/access', title: '权限管理', path: '/system/access', level: 2, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
+  { routeKey: '/system/access/users', title: '用户管理', path: '/system/access/users', level: 3, roles: ['admin', 'editor'], permissions: ['system:user:view'], enabled: true, order: 10 },
+  { routeKey: '/system/access/roles', title: '角色管理', path: '/system/access/roles', level: 3, roles: ['admin'], permissions: ['system:role:view'], enabled: true, order: 20 },
+  { routeKey: '/system/config', title: '系统配置', path: '/system/config', level: 2, roles: ['admin'], permissions: [], enabled: true, order: 20 },
+  { routeKey: '/system/config/menus', title: '菜单配置', path: '/system/config/menus', level: 3, roles: ['admin'], permissions: ['system:menu:view'], enabled: true, order: 10 },
+  { routeKey: '/system/config/dicts', title: '字典配置', path: '/system/config/dicts', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 20 },
+  { routeKey: '/system/config/logs', title: '操作日志', path: '/system/config/logs', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 30 },
+  { routeKey: '/examples', title: '示例中心', path: '/examples', level: 1, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 30 },
+  { routeKey: '/examples/pages', title: '页面模板', path: '/examples/pages', level: 2, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
+  { routeKey: '/examples/pages/list', title: '列表模板', path: '/examples/pages/list', level: 3, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
+  { routeKey: '/examples/pages/form', title: '表单模板', path: '/examples/pages/form', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 20 },
+  { routeKey: '/examples/pages/detail', title: '详情模板', path: '/examples/pages/detail', level: 3, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 30 },
+  { routeKey: '/examples/visual', title: '可视化', path: '/examples/visual', level: 2, roles: ['admin'], permissions: [], enabled: true, order: 20 },
+  { routeKey: '/examples/visual/charts', title: '图表示例', path: '/examples/visual/charts', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 10 },
+  { routeKey: '/examples/content', title: '内容管理', path: '/examples/content', level: 2, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 30 },
+  { routeKey: '/examples/content/markdown', title: 'Markdown 编辑器', path: '/examples/content/markdown', level: 3, roles: ['admin', 'editor'], permissions: [], enabled: true, order: 10 },
+  { routeKey: '/examples/content/uploads', title: '上传示例', path: '/examples/content/uploads', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 20 },
+  { routeKey: '/examples/content/excel', title: 'Excel 导入导出', path: '/examples/content/excel', level: 3, roles: ['admin'], permissions: [], enabled: true, order: 30 },
 ]
 
 const accessEntriesByRole: Record<UserProfile['role'], BackendAccessEntry[]> = {
-  admin: menuRegistry.map(({ routeKey, title, order }) => ({ routeKey, title, order })),
-  editor: menuRegistry
-    .filter(item => item.roles.includes('editor'))
-    .map(({ routeKey, title, order }) => ({ routeKey, title, order })),
+  admin: buildAccessEntries(rolePolicies[0].routeKeys),
+  editor: buildAccessEntries(rolePolicies[1].routeKeys),
 }
 
 function jsonResponse(data: unknown, status = 200) {
@@ -119,12 +121,44 @@ function jsonResponse(data: unknown, status = 200) {
   })
 }
 
+function buildAccessEntries(routeKeys: string[]) {
+  const menuEntryByRouteKey = new Map(menuRegistry.map(item => [item.routeKey, item]))
+
+  return routeKeys.map((routeKey, index) => {
+    const menuEntry = menuEntryByRouteKey.get(routeKey)
+
+    return {
+      routeKey,
+      title: menuEntry?.title ?? routeKey,
+      order: menuEntry?.order ?? 1000 + index,
+    }
+  })
+}
+
+function readAuthorizationHeader(headers?: HeadersInit) {
+  if (!headers) {
+    return null
+  }
+
+  if (headers instanceof Headers) {
+    return headers.get('authorization')
+  }
+
+  if (Array.isArray(headers)) {
+    const entry = headers.find(([key]) => key.toLowerCase() === 'authorization')
+    return entry?.[1] ?? null
+  }
+
+  const record = headers as Record<string, string>
+  return record.authorization ?? record.Authorization ?? null
+}
+
 export async function createMockFetch(input: RequestInfo | URL, init?: RequestInit) {
   const rawUrl = String(input)
   const url = new URL(rawUrl.startsWith('http') ? rawUrl : `https://mock.local${rawUrl}`)
   const pathname = url.pathname
   const method = (init?.method ?? 'GET').toUpperCase()
-  const token = init?.headers instanceof Headers ? init.headers.get('authorization') : null
+  const token = readAuthorizationHeader(init?.headers)
 
   if (pathname === '/api/auth/login' && method === 'POST') {
     const body = typeof init?.body === 'string' ? JSON.parse(init.body) : {}
@@ -194,10 +228,10 @@ export async function createMockFetch(input: RequestInfo | URL, init?: RequestIn
       message: 'ok',
       data: {
         cards: [
-          { label: 'Active Users', value: '12,480', delta: '+8.2%' },
-          { label: 'Weekly Orders', value: '1,284', delta: '+3.6%' },
-          { label: 'Conversion', value: '7.8%', delta: '+1.1%' },
-          { label: 'Server Load', value: '42%', delta: '-4.3%' },
+          { label: '活跃用户', value: '12,480', delta: '+8.2%' },
+          { label: '本周订单', value: '1,284', delta: '+3.6%' },
+          { label: '转化率', value: '7.8%', delta: '+1.1%' },
+          { label: '服务器负载', value: '42%', delta: '-4.3%' },
         ],
         trend: [
           ['Mon', 120, 90],
@@ -209,10 +243,10 @@ export async function createMockFetch(input: RequestInfo | URL, init?: RequestIn
           ['Sun', 182, 164],
         ],
         channels: [
-          { name: 'Organic', value: 42 },
-          { name: 'Referral', value: 22 },
-          { name: 'Search Ads', value: 18 },
-          { name: 'Email', value: 18 },
+          { name: '自然流量', value: 42 },
+          { name: '转介绍', value: 22 },
+          { name: '搜索广告', value: 18 },
+          { name: '邮件营销', value: 18 },
         ],
       },
     })

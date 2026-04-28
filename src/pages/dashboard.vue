@@ -4,7 +4,7 @@ import { useRequest } from '@/api/client'
 
 definePage({
   meta: {
-    title: 'Dashboard',
+    title: '工作台',
     icon: 'i-ep-data-analysis',
     layout: 'admin',
     requiresAuth: true,
@@ -19,12 +19,12 @@ const { data, loading } = useRequest(dashboardSummaryApi(), {
 
 const trendOption = computed(() => ({
   tooltip: { trigger: 'axis' },
-  legend: { data: ['Visits', 'Orders'] },
+  legend: { data: ['访问量', '订单量'] },
   xAxis: { type: 'category', data: data.value?.trend.map(item => item[0]) ?? [] },
   yAxis: { type: 'value' },
   series: [
-    { name: 'Visits', type: 'line', smooth: true, data: data.value?.trend.map(item => item[1]) ?? [] },
-    { name: 'Orders', type: 'bar', data: data.value?.trend.map(item => item[2]) ?? [] },
+    { name: '访问量', type: 'line', smooth: true, data: data.value?.trend.map(item => item[1]) ?? [] },
+    { name: '订单量', type: 'bar', data: data.value?.trend.map(item => item[2]) ?? [] },
   ],
 }))
 
@@ -43,9 +43,9 @@ const channelOption = computed(() => ({
 
 <template>
   <PageContainer>
-    <PageHeader title="Dashboard" description="Admin home with cards, trend chart, and traffic mix.">
+    <PageHeader title="工作台" description="后台首页，展示核心指标、趋势图和流量结构。">
       <template #actions>
-        <ElTag type="primary">Route meta + tabs + keepAlive</ElTag>
+        <ElTag type="primary">路由元信息 + 标签页 + KeepAlive</ElTag>
       </template>
     </PageHeader>
 
@@ -58,11 +58,11 @@ const channelOption = computed(() => ({
     </div>
 
     <div class="grid gap-4 xl:grid-cols-[1.7fr_1fr]">
-      <ChartContainer title="Weekly Trend" :option="trendOption" />
-      <ChartContainer title="Traffic Mix" :option="channelOption" />
+      <ChartContainer title="周趋势" :option="trendOption" />
+      <ChartContainer title="流量结构" :option="channelOption" />
     </div>
 
-    <DetailSection title="What this template ships with">
+    <DetailSection title="当前模板包含">
       <ElSkeleton :loading="loading" animated>
         <template #template>
           <ElSkeletonItem variant="p" class="mb-3" />
@@ -70,9 +70,9 @@ const channelOption = computed(() => ({
           <ElSkeletonItem variant="p" />
         </template>
         <ul class="m-0 flex list-none flex-col gap-3 p-0 text-14px text-slate-600">
-          <li>Page-driven route meta and route-derived menu, breadcrumb, tabs.</li>
-          <li>Pinia stores for app, user, permission, and tabs.</li>
-          <li>alova request layer, charts, markdown, uploads, Excel examples.</li>
+          <li>基于页面驱动的路由元信息、菜单、面包屑和标签页。</li>
+          <li>内置 app、user、permission、tabs 等 Pinia 状态管理。</li>
+          <li>包含 alova 请求层、图表、Markdown、上传和 Excel 示例。</li>
         </ul>
       </ElSkeleton>
     </DetailSection>

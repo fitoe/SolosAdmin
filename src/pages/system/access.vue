@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Access',
+    title: '权限管理',
     icon: 'i-ep-lock',
     layout: 'admin',
     requiresAuth: true,

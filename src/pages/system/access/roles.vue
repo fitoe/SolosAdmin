@@ -4,7 +4,7 @@ import { rolesRegistryApi } from '@/api/modules/system'
 
 definePage({
   meta: {
-    title: 'Roles',
+    title: '角色管理',
     icon: 'i-ep-key',
     layout: 'admin',
     requiresAuth: true,

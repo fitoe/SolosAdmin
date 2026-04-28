@@ -6,6 +6,7 @@ import { computed, ref } from 'vue'
 
 import { accessPolicyApi } from '@/api/modules/auth'
 import { ACCESS_STORAGE_KEY } from '@/constants/storage'
+import { getRouteKey } from '@/router/access'
 import { applyAccessConfig, filterRoutesByAccess, filterRoutesByRoles } from '@/router/access'
 import { deriveMenuTree, type MenuItem } from '@/router/menu'
 
@@ -19,21 +20,22 @@ export const usePermissionStore = defineStore('permission', () => {
   const allowedRouteKeys = computed(() => new Set(accessEntries.value.map(item => item.routeKey)))
 
   function generate(routes: RouteRecordRaw[], roles: string[], nextEntries: BackendAccessEntry[] = accessEntries.value) {
+    const normalizedEntries = normalizeAccessEntries(nextEntries, routes)
     const roleFilteredRoutes = filterRoutesByRoles(routes, roles).filter(
       route => route.meta?.layout !== 'blank',
     )
     const accessFilteredRoutes =
-      nextEntries.length > 0 ? filterRoutesByAccess(roleFilteredRoutes, new Set(nextEntries.map(item => item.routeKey))) : roleFilteredRoutes
+      normalizedEntries.length > 0 ? filterRoutesByAccess(roleFilteredRoutes, new Set(normalizedEntries.map(item => item.routeKey))) : roleFilteredRoutes
     const configuredRoutes =
-      nextEntries.length > 0
+      normalizedEntries.length > 0
         ? applyAccessConfig(
             accessFilteredRoutes,
-            Object.fromEntries(nextEntries.map(item => [item.routeKey, item])),
+            Object.fromEntries(normalizedEntries.map(item => [item.routeKey, item])),
           )
         : accessFilteredRoutes
 
-    accessEntries.value = nextEntries
-    initialized.value = nextEntries.length > 0
+    accessEntries.value = normalizedEntries
+    initialized.value = normalizedEntries.length > 0
     accessibleRoutes.value = configuredRoutes
     menuTree.value = deriveMenuTree(configuredRoutes)
     persist()
@@ -88,4 +90,33 @@ function readStoredAccessEntries() {
   } catch {
     return []
   }
+}
+
+function normalizeAccessEntries(entries: BackendAccessEntry[], routes: RouteRecordRaw[]) {
+  const routeMetaByKey = collectRouteMetaByKey(routes)
+
+  return entries.map((entry) => {
+    const routeMeta = routeMetaByKey.get(entry.routeKey)
+
+    return {
+      ...entry,
+      title: routeMeta?.title ?? entry.title,
+    }
+  })
+}
+
+function collectRouteMetaByKey(routes: RouteRecordRaw[]) {
+  const routeMetaByKey = new Map<string, RouteRecordRaw['meta']>()
+
+  for (const route of routes) {
+    routeMetaByKey.set(getRouteKey(route), route.meta)
+
+    if (route.children?.length) {
+      for (const [key, meta] of collectRouteMetaByKey(route.children)) {
+        routeMetaByKey.set(key, meta)
+      }
+    }
+  }
+
+  return routeMetaByKey
 }

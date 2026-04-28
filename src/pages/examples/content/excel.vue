@@ -3,7 +3,7 @@ import * as XLSX from 'xlsx'
 
 definePage({
   meta: {
-    title: 'Excel Import/Export',
+    title: 'Excel 导入导出',
     icon: 'i-ep-document-copy',
     layout: 'admin',
     requiresAuth: true,

@@ -17,7 +17,7 @@ const emit = defineEmits<{
     </div>
     <div class="flex items-center gap-3">
       <slot name="actions" />
-      <ElButton text type="primary" @click="emit('back')">Back</ElButton>
+      <ElButton text type="primary" @click="emit('back')">返回</ElButton>
     </div>
   </div>
 </template>

@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 
 definePage({
   meta: {
-    title: 'Batch Actions',
+    title: '批量操作',
     icon: 'i-ep-finished',
     layout: 'admin',
     requiresAuth: true,

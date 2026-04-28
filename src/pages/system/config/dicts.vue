@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Dictionaries',
+    title: '字典配置',
     icon: 'i-ep-collection-tag',
     layout: 'admin',
     requiresAuth: true,
@@ -17,9 +17,9 @@ const rows = [
 
 <template>
   <PageContainer>
-    <PageHeader title="Dictionary Config" description="Simple reusable CRUD shell page." />
+    <PageHeader title="字典配置" description="简洁可复用的 CRUD 壳层页面示例。" />
     <div class="app-card p-5">
-      <DataTable :columns="[{ key: 'key', title: 'Key' }, { key: 'value', title: 'Values' }]" :rows="rows" />
+      <DataTable :columns="[{ key: 'key', title: '键' }, { key: 'value', title: '值' }]" :rows="rows" />
     </div>
   </PageContainer>
 </template>

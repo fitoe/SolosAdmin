@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePage({
   meta: {
-    title: 'Tree Table',
+    title: '树形表格',
     icon: 'i-ep-share',
     layout: 'admin',
     requiresAuth: true,
