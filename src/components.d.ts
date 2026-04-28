@@ -60,7 +60,10 @@ declare module 'vue' {
     PageHeader: typeof import('./components/admin/PageHeader.vue')['default']
     PermissionButton: typeof import('./components/admin/PermissionButton.vue')['default']
     QueryPanel: typeof import('./components/admin/QueryPanel.vue')['default']
+    ResetPasswordDialog: typeof import('./components/admin/user-management/ResetPasswordDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UserFormDialog: typeof import('./components/admin/user-management/UserFormDialog.vue')['default']
+    UserStatusTag: typeof import('./components/admin/user-management/UserStatusTag.vue')['default']
   }
 }

@@ -1,22 +1,18 @@
-import type { PageQueryResult } from '@/types/app'
+import type { PageQueryResult, SystemUserQuery } from '@/types/app'
 
 import { useRequest } from 'alova/client'
 import { alova } from '@/api/client'
 
-interface QueryState {
-  page: number
-  pageSize: number
-  keyword: string
-}
-
 export function usePageQuery<T>(
-  createMethod: (query: QueryState) => ReturnType<typeof alova.Get<PageQueryResult<T>>>,
-  initialQuery: Partial<QueryState> = {},
+  createMethod: (query: SystemUserQuery) => ReturnType<typeof alova.Get<PageQueryResult<T>>>,
+  initialQuery: Partial<SystemUserQuery> = {},
 ) {
-  const query = reactive<QueryState>({
+  const query = reactive<SystemUserQuery>({
     page: 1,
     pageSize: 10,
     keyword: '',
+    status: '',
+    roleCode: '',
     ...initialQuery,
   })
 
@@ -35,6 +31,8 @@ export function usePageQuery<T>(
   async function reset() {
     query.page = 1
     query.keyword = ''
+    query.status = ''
+    query.roleCode = ''
     await reload()
   }
 

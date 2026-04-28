@@ -51,3 +51,46 @@ export interface PageQueryResult<T> {
   list: T[]
   total: number
 }
+
+export type SystemUserStatus = 'active' | 'disabled'
+
+export interface SystemUser {
+  id: string
+  name: string
+  email: string
+  phone: string
+  roleCodes: string[]
+  status: SystemUserStatus
+  remark: string
+  createdAt: string
+  updatedAt: string
+}
+
+export type SystemUserListItem = SystemUser
+
+export interface SystemUserPayload {
+  name: string
+  email: string
+  phone: string
+  roleCodes: string[]
+  status: SystemUserStatus
+  remark: string
+}
+
+export interface SystemUserQuery {
+  page: number
+  pageSize: number
+  keyword: string
+  status: SystemUserStatus | ''
+  roleCode: string
+}
+
+export interface SystemUserStatusPayload {
+  ids: string[]
+  status: SystemUserStatus
+}
+
+export interface ResetUserPasswordPayload {
+  id: string
+  password: string
+}
