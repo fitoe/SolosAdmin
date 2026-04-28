@@ -20,9 +20,9 @@ interface EditableRow {
 }
 
 const rows = ref<EditableRow[]>([
-  { id: 1, name: 'Campaign Alpha', owner: 'Admin User', status: 'Active' },
-  { id: 2, name: 'Knowledge Base', owner: 'Editor User', status: 'Draft' },
-  { id: 3, name: 'Pricing Table', owner: 'Admin User', status: 'Paused' },
+  { id: 1, name: '活动专题页', owner: '管理员', status: 'Active' },
+  { id: 2, name: '知识库', owner: '编辑员', status: 'Draft' },
+  { id: 3, name: '价格表', owner: '管理员', status: 'Paused' },
 ])
 
 function startEdit(row: EditableRow) {
@@ -31,7 +31,7 @@ function startEdit(row: EditableRow) {
 
 function saveEdit(row: EditableRow) {
   row.editing = false
-  ElMessage.success(`Saved ${row.name}`)
+  ElMessage.success(`已保存：${row.name}`)
 }
 
 function cancelEdit(row: EditableRow) {
@@ -41,46 +41,46 @@ function cancelEdit(row: EditableRow) {
 
 <template>
   <PageContainer>
-    <PageHeader title="Inline Edit Table" description="Table rows can switch between read and edit state without leaving the page." />
+    <PageHeader title="行内编辑" description="无需离开当前页，直接在表格中切换查看与编辑状态。" />
     <div class="app-card p-5">
       <ElTable :data="rows" border>
-        <ElTableColumn prop="name" label="Name" min-width="220">
+        <ElTableColumn prop="name" label="名称" min-width="220">
           <template #default="{ row }">
             <ElInput v-if="row.editing" v-model="row.name" />
             <span v-else>{{ row.name }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="owner" label="Owner" min-width="180">
+        <ElTableColumn prop="owner" label="负责人" min-width="180">
           <template #default="{ row }">
             <ElSelect v-if="row.editing" v-model="row.owner">
-              <ElOption label="Admin User" value="Admin User" />
-              <ElOption label="Editor User" value="Editor User" />
+              <ElOption label="管理员" value="管理员" />
+              <ElOption label="编辑员" value="编辑员" />
             </ElSelect>
             <span v-else>{{ row.owner }}</span>
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="status" label="Status" min-width="160">
+        <ElTableColumn prop="status" label="状态" min-width="160">
           <template #default="{ row }">
             <ElSelect v-if="row.editing" v-model="row.status">
-              <ElOption label="Active" value="Active" />
-              <ElOption label="Draft" value="Draft" />
-              <ElOption label="Paused" value="Paused" />
+              <ElOption label="启用" value="Active" />
+              <ElOption label="草稿" value="Draft" />
+              <ElOption label="停用" value="Paused" />
             </ElSelect>
             <ElTag v-else :type="row.status === 'Active' ? 'success' : row.status === 'Draft' ? 'warning' : 'info'">
-              {{ row.status }}
+              {{ row.status === 'Active' ? '启用' : row.status === 'Draft' ? '草稿' : '停用' }}
             </ElTag>
           </template>
         </ElTableColumn>
-        <ElTableColumn label="Actions" min-width="220">
+        <ElTableColumn label="操作" min-width="220">
           <template #default="{ row }">
             <div class="flex gap-2">
               <template v-if="row.editing">
-                <ElButton type="primary" text @click="saveEdit(row)">Save</ElButton>
-                <ElButton text @click="cancelEdit(row)">Cancel</ElButton>
+                <ElButton type="primary" text @click="saveEdit(row)">保存</ElButton>
+                <ElButton text @click="cancelEdit(row)">取消</ElButton>
               </template>
               <template v-else>
-                <ElButton type="primary" text @click="startEdit(row)">Edit</ElButton>
-                <ElButton type="danger" text>Delete</ElButton>
+                <ElButton type="primary" text @click="startEdit(row)">编辑</ElButton>
+                <ElButton type="danger" text>删除</ElButton>
               </template>
             </div>
           </template>

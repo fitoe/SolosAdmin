@@ -18,10 +18,10 @@ interface BatchRow {
 }
 
 const rows = ref<BatchRow[]>([
-  { id: 101, name: 'Article Publish Flow', owner: 'Admin User', status: 'Pending' },
-  { id: 102, name: 'Media Library Sync', owner: 'Editor User', status: 'Approved' },
-  { id: 103, name: 'Pricing Copy Review', owner: 'Admin User', status: 'Pending' },
-  { id: 104, name: 'Banner Asset Refresh', owner: 'Editor User', status: 'Rejected' },
+  { id: 101, name: '文章发布流程', owner: '管理员', status: 'Pending' },
+  { id: 102, name: '媒体库同步', owner: '编辑员', status: 'Approved' },
+  { id: 103, name: '价格文案复核', owner: '管理员', status: 'Pending' },
+  { id: 104, name: '横幅素材更新', owner: '编辑员', status: 'Rejected' },
 ])
 
 const tableRef = useTemplateRef('batchTable')
@@ -33,7 +33,8 @@ function handleSelectionChange(selection: BatchRow[]) {
 
 function applyBatchStatus(status: BatchRow['status']) {
   rows.value = rows.value.map(row => (selectedIds.value.includes(row.id) ? { ...row, status } : row))
-  ElMessage.success(`Updated ${selectedIds.value.length} rows to ${status}`)
+  const statusLabel = status === 'Approved' ? '已通过' : status === 'Rejected' ? '已驳回' : '待处理'
+  ElMessage.success(`已将 ${selectedIds.value.length} 条记录更新为${statusLabel}`)
   tableRef.value?.clearSelection()
   clearSelection()
 }
@@ -41,29 +42,29 @@ function applyBatchStatus(status: BatchRow['status']) {
 
 <template>
   <PageContainer>
-    <PageHeader title="Batch Actions List" description="Bulk selection, status update, and toolbar state driven by selected rows." />
+    <PageHeader title="批量操作" description="基于选中行驱动工具栏状态，并支持批量更新状态。" />
     <div class="app-card flex flex-col gap-4 p-5">
       <DataToolbar>
         <template #left>
-          <ElButton type="primary" :disabled="!hasSelection" @click="applyBatchStatus('Approved')">Approve Selected</ElButton>
-          <ElButton :disabled="!hasSelection" @click="applyBatchStatus('Rejected')">Reject Selected</ElButton>
-          <ElButton type="danger" plain :disabled="!hasSelection" @click="applyBatchStatus('Pending')">Reset to Pending</ElButton>
+          <ElButton type="primary" :disabled="!hasSelection" @click="applyBatchStatus('Approved')">批量通过</ElButton>
+          <ElButton :disabled="!hasSelection" @click="applyBatchStatus('Rejected')">批量驳回</ElButton>
+          <ElButton type="danger" plain :disabled="!hasSelection" @click="applyBatchStatus('Pending')">重置为待处理</ElButton>
         </template>
         <template #right>
           <ElTag :type="hasSelection ? 'primary' : 'info'">
-            {{ hasSelection ? `${selectedIds.length} selected` : 'No selection' }}
+            {{ hasSelection ? `已选 ${selectedIds.length} 项` : '未选择数据' }}
           </ElTag>
         </template>
       </DataToolbar>
 
       <ElTable ref="batchTable" :data="rows" border @selection-change="handleSelectionChange">
         <ElTableColumn type="selection" width="48" />
-        <ElTableColumn prop="name" label="Name" min-width="220" />
-        <ElTableColumn prop="owner" label="Owner" min-width="160" />
-        <ElTableColumn prop="status" label="Status" min-width="140">
+        <ElTableColumn prop="name" label="名称" min-width="220" />
+        <ElTableColumn prop="owner" label="负责人" min-width="160" />
+        <ElTableColumn prop="status" label="状态" min-width="140">
           <template #default="{ row }">
             <ElTag :type="row.status === 'Approved' ? 'success' : row.status === 'Rejected' ? 'danger' : 'warning'">
-              {{ row.status }}
+              {{ row.status === 'Approved' ? '已通过' : row.status === 'Rejected' ? '已驳回' : '待处理' }}
             </ElTag>
           </template>
         </ElTableColumn>

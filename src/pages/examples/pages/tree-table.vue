@@ -20,22 +20,22 @@ interface TreeRow {
 const rows: TreeRow[] = [
   {
     id: 1,
-    name: 'System Configuration',
-    type: 'Module',
-    owner: 'Admin User',
+    name: '系统配置',
+    type: '模块',
+    owner: '管理员',
     children: [
-      { id: 11, name: 'User Management', type: 'Page', owner: 'Admin User' },
-      { id: 12, name: 'Role Management', type: 'Page', owner: 'Admin User' },
+      { id: 11, name: '用户管理', type: '页面', owner: '管理员' },
+      { id: 12, name: '角色管理', type: '页面', owner: '管理员' },
     ],
   },
   {
     id: 2,
-    name: 'Content Center',
-    type: 'Module',
-    owner: 'Editor User',
+    name: '内容中心',
+    type: '模块',
+    owner: '编辑员',
     children: [
-      { id: 21, name: 'Markdown Editor', type: 'Page', owner: 'Editor User' },
-      { id: 22, name: 'Upload Assets', type: 'Page', owner: 'Admin User' },
+      { id: 21, name: 'Markdown 编辑器', type: '页面', owner: '编辑员' },
+      { id: 22, name: '上传资源', type: '页面', owner: '管理员' },
     ],
   },
 ]
@@ -43,17 +43,17 @@ const rows: TreeRow[] = [
 
 <template>
   <PageContainer>
-    <PageHeader title="Tree Table" description="Hierarchical page for nested resources, modules, or organizations." />
+    <PageHeader title="树形表格" description="适合模块、资源或组织结构的层级表格页面。" />
     <div class="app-card p-5">
       <ElTable :data="rows" row-key="id" border default-expand-all>
-        <ElTableColumn prop="name" label="Name" min-width="220" />
-        <ElTableColumn prop="type" label="Type" min-width="140" />
-        <ElTableColumn prop="owner" label="Owner" min-width="160" />
-        <ElTableColumn label="Actions" min-width="180">
+        <ElTableColumn prop="name" label="名称" min-width="220" />
+        <ElTableColumn prop="type" label="类型" min-width="140" />
+        <ElTableColumn prop="owner" label="负责人" min-width="160" />
+        <ElTableColumn label="操作" min-width="180">
           <template #default>
             <div class="flex gap-2">
-              <ElButton type="primary" text>Edit</ElButton>
-              <ElButton type="danger" text>Delete</ElButton>
+              <ElButton type="primary" text>编辑</ElButton>
+              <ElButton type="danger" text>删除</ElButton>
             </div>
           </template>
         </ElTableColumn>

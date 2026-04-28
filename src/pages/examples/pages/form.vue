@@ -17,23 +17,23 @@ const { model, submitting, submit } = usePageForm({
 
 <template>
   <PageContainer>
-    <PageHeader title="Form Template" description="Single-column form page with save action.">
+    <PageHeader title="表单模板" description="单列布局的基础表单页面，带保存动作。" >
       <template #actions>
-        <ElButton type="primary" :loading="submitting" @click="submit(async () => undefined)">Save</ElButton>
+        <ElButton type="primary" :loading="submitting" @click="submit(async () => undefined)">保存</ElButton>
       </template>
     </PageHeader>
     <div class="app-card p-5">
       <ElForm label-position="top">
-        <ElFormItem label="Title">
+        <ElFormItem label="标题">
           <ElInput v-model="model.title" />
         </ElFormItem>
-        <ElFormItem label="Category">
+        <ElFormItem label="分类">
           <ElSelect v-model="model.category">
-            <ElOption label="Default" value="default" />
-            <ElOption label="Campaign" value="campaign" />
+            <ElOption label="默认" value="default" />
+            <ElOption label="活动" value="campaign" />
           </ElSelect>
         </ElFormItem>
-        <ElFormItem label="Enabled">
+        <ElFormItem label="启用">
           <ElSwitch v-model="model.enabled" />
         </ElFormItem>
       </ElForm>

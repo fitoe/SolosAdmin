@@ -19,7 +19,7 @@ const { data = shallowRef([]), loading } = useRequest(rolesRegistryApi(), {
 
 <template>
   <PageContainer>
-    <PageHeader title="Role Management" description="Backend route-key mapping shown per role." />
+    <PageHeader title="角色管理" description="按角色展示后端下发的路由键映射与权限项。" />
     <div class="grid gap-4 xl:grid-cols-2">
       <div v-for="role in data" :key="role.code" class="app-card p-5">
         <div class="flex items-start justify-between gap-4">
@@ -27,17 +27,17 @@ const { data = shallowRef([]), loading } = useRequest(rolesRegistryApi(), {
             <div class="text-16px font-700 text-slate-900">{{ role.name }}</div>
             <div class="mt-1 text-13px text-slate-500">{{ role.description }}</div>
           </div>
-          <ElTag>{{ role.members }} members</ElTag>
+          <ElTag>{{ role.members }} 人</ElTag>
         </div>
         <div class="mt-5 grid gap-4 md:grid-cols-2">
           <div>
-            <div class="mb-2 text-13px font-600 text-slate-700">Route Keys</div>
+            <div class="mb-2 text-13px font-600 text-slate-700">路由键</div>
             <div class="flex flex-wrap gap-2">
               <ElTag v-for="routeKey in role.routeKeys" :key="routeKey" type="info">{{ routeKey }}</ElTag>
             </div>
           </div>
           <div>
-            <div class="mb-2 text-13px font-600 text-slate-700">Permissions</div>
+            <div class="mb-2 text-13px font-600 text-slate-700">权限项</div>
             <div class="flex flex-wrap gap-2">
               <ElTag v-for="permission in role.permissionKeys" :key="permission" type="success">
                 {{ permission }}
